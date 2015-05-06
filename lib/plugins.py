@@ -14,12 +14,12 @@ def init_plugins(config, local):
         fp, pathname, description = imp.find_module('plugins')
         plugin_names = [name for a, name, b in pkgutil.iter_modules([pathname])]
         plugin_names = filter( lambda name: os.path.exists(os.path.join(pathname,name+'.py')), plugin_names)
-        imp.load_module('electrum_plugins', fp, pathname, description)
-        plugin_modules = map(lambda name: imp.load_source('electrum_plugins.'+name, os.path.join(pathname,name+'.py')), plugin_names)
+        imp.load_module('scallop_plugins', fp, pathname, description)
+        plugin_modules = map(lambda name: imp.load_source('scallop_plugins.'+name, os.path.join(pathname,name+'.py')), plugin_names)
     else:
-        import electrum_plugins
-        plugin_names = [name for a, name, b in pkgutil.iter_modules(electrum_plugins.__path__)]
-        plugin_modules = [ __import__('electrum_plugins.'+name, fromlist=['electrum_plugins']) for name in plugin_names]
+        import scallop_plugins
+        plugin_names = [name for a, name, b in pkgutil.iter_modules(scallop_plugins.__path__)]
+        plugin_modules = [ __import__('scallop_plugins.'+name, fromlist=['scallop_plugins']) for name in plugin_names]
 
     for name, p in zip(plugin_names, plugin_modules):
         try:

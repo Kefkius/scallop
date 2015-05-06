@@ -1,0 +1,17 @@
+# If you want scallop to appear in a linux app launcher ("start menu"), install this by doing:
+# sudo desktop-file-install scallop.desktop
+
+[Desktop Entry]
+Comment=Lightweight CLAMS Client
+Exec=scallop %u
+GenericName[en_US]=Scalop
+GenericName=Scallop
+Icon=scallop
+Name[en_US]=Scallop CLAMS Wallet
+Name=Scallop CLAMS Wallet
+Categories=Network;
+StartupNotify=false
+Terminal=false
+Type=Application
+MimeType=x-scheme-handler/bitcoin;
+

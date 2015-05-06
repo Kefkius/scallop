@@ -29,19 +29,19 @@ from urllib import quote
 from PyQt4.QtGui import *
 from PyQt4.QtCore import *
 
-import electrum
-from electrum import bitcoin
-from electrum.bitcoin import *
-from electrum.mnemonic import Mnemonic
-from electrum import version
-from electrum.wallet import Wallet_2of3
-from electrum.i18n import _
-from electrum.plugins import BasePlugin, run_hook, hook
+import scallop
+from scallop import bitcoin
+from scallop.bitcoin import *
+from scallop.mnemonic import Mnemonic
+from scallop import version
+from scallop.wallet import Wallet_2of3
+from scallop.i18n import _
+from scallop.plugins import BasePlugin, run_hook, hook
 
-from electrum_gui.qt.util import *
-from electrum_gui.qt.qrcodewidget import QRCodeWidget
-from electrum_gui.qt.amountedit import AmountEdit
-from electrum_gui.qt.main_window import StatusBarButton
+from scallop_gui.qt.util import *
+from scallop_gui.qt.qrcodewidget import QRCodeWidget
+from scallop_gui.qt.amountedit import AmountEdit
+from scallop_gui.qt.main_window import StatusBarButton
 
 from decimal import Decimal
 
@@ -433,7 +433,7 @@ class Plugin(BasePlugin):
 
 
     def need_server(self, tx):
-        from electrum.account import BIP32_Account
+        from scallop.account import BIP32_Account
         # Detect if the server is needed
         long_id, short_id = self.get_user_id()
         xpub3 = self.wallet.master_public_keys['x3/']

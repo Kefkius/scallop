@@ -20,9 +20,9 @@
 import webbrowser
 
 from util import *
-from electrum.i18n import _
-from electrum.util import format_satoshis, format_time
-from electrum.plugins import run_hook
+from scallop.i18n import _
+from scallop.util import format_satoshis, format_time
+from scallop.plugins import run_hook
 
 
 class HistoryWidget(MyTreeWidget):

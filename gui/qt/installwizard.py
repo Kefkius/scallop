@@ -2,11 +2,11 @@ from PyQt4.QtGui import *
 from PyQt4.QtCore import *
 import PyQt4.QtCore as QtCore
 
-import electrum
-from electrum.i18n import _
-from electrum import Wallet, Wallet_2of2, Wallet_2of3
-from electrum import bitcoin
-from electrum import util
+import scallop
+from scallop.i18n import _
+from scallop import Wallet, Wallet_2of2, Wallet_2of3
+from scallop import bitcoin
+from scallop import util
 
 import seed_dialog
 from network_dialog import NetworkDialog
@@ -15,8 +15,8 @@ from amountedit import AmountEdit
 
 import sys
 import threading
-from electrum.plugins import always_hook
-from electrum.mnemonic import prepare_seed
+from scallop.plugins import always_hook
+from scallop.mnemonic import prepare_seed
 
 MSG_ENTER_ANYTHING    = _("Please enter a wallet seed, a master public key, a list of Bitcoin addresses, or a list of private keys")
 MSG_SHOW_MPK          = _("This is your master public key")
@@ -78,7 +78,7 @@ class InstallWizard(QDialog):
         ]
 
         for i, (wtype,name) in enumerate(self.wallet_types):
-            if not filter(lambda x:x[0]==wtype, electrum.wallet.wallet_types):
+            if not filter(lambda x:x[0]==wtype, scallop.wallet.wallet_types):
                 continue
             button = QRadioButton(gb2)
             button.setText(name)
@@ -322,7 +322,7 @@ class InstallWizard(QDialog):
                 if not wallet_type:
                     return
             elif wallet_type == 'hardware':
-                hardware_wallets = map(lambda x:(x[1],x[2]), filter(lambda x:x[0]=='hardware', electrum.wallet.wallet_types))
+                hardware_wallets = map(lambda x:(x[1],x[2]), filter(lambda x:x[0]=='hardware', scallop.wallet.wallet_types))
                 wallet_type = self.choice(_("Hardware Wallet"), 'Select your hardware wallet', hardware_wallets)
                 if not wallet_type:
                     return

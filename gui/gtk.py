@@ -24,18 +24,18 @@ import gi
 gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk, Gdk, GObject, cairo
 from decimal import Decimal
-from electrum.util import print_error, InvalidPassword
-from electrum.bitcoin import is_valid
-from electrum import WalletStorage, Wallet
+from scallop.util import print_error, InvalidPassword
+from scallop.bitcoin import is_valid
+from scallop import WalletStorage, Wallet
 
 Gdk.threads_init()
 APP_NAME = "Electrum"
 import platform
 MONOSPACE_FONT = 'Lucida Console' if platform.system() == 'Windows' else 'monospace'
 
-from electrum.util import format_satoshis, parse_URI
-from electrum.network import DEFAULT_SERVERS
-from electrum.bitcoin import MIN_RELAY_TX_FEE
+from scallop.util import format_satoshis, parse_URI
+from scallop.network import DEFAULT_SERVERS
+from scallop.bitcoin import MIN_RELAY_TX_FEE
 
 def numbify(entry, is_int = False):
     text = entry.get_text().strip()
@@ -466,7 +466,7 @@ class ElectrumWindow:
         self.window.set_default_size(720, 350)
         self.wallet_updated = False
 
-        from electrum.util import StoreDict
+        from scallop.util import StoreDict
         self.contacts = StoreDict(self.config, 'contacts')
 
         vbox = Gtk.VBox()

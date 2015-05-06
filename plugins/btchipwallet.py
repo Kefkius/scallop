@@ -7,16 +7,16 @@ from sys import stderr
 from time import sleep
 from base64 import b64encode, b64decode
 
-import electrum
-from electrum_gui.qt.password_dialog import make_password_dialog, run_password_dialog
-from electrum.account import BIP32_Account
-from electrum.bitcoin import EncodeBase58Check, DecodeBase58Check, public_key_to_bc_address, bc_address_to_hash_160
-from electrum.i18n import _
-from electrum.plugins import BasePlugin, hook
-from electrum.transaction import deserialize
-from electrum.wallet import BIP32_HD_Wallet
+import scallop
+from scallop_gui.qt.password_dialog import make_password_dialog, run_password_dialog
+from scallop.account import BIP32_Account
+from scallop.bitcoin import EncodeBase58Check, DecodeBase58Check, public_key_to_bc_address, bc_address_to_hash_160
+from scallop.i18n import _
+from scallop.plugins import BasePlugin, hook
+from scallop.transaction import deserialize
+from scallop.wallet import BIP32_HD_Wallet
 
-from electrum.util import format_satoshis
+from scallop.util import format_satoshis
 import hashlib
 
 try:

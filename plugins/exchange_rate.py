@@ -11,10 +11,10 @@ import re
 from ssl import SSLError
 from decimal import Decimal
 
-from electrum.plugins import BasePlugin, hook
-from electrum.i18n import _
-from electrum_gui.qt.util import *
-from electrum_gui.qt.amountedit import AmountEdit
+from scallop.plugins import BasePlugin, hook
+from scallop.i18n import _
+from scallop_gui.qt.util import *
+from scallop_gui.qt.amountedit import AmountEdit
 
 
 EXCHANGES = ["BitcoinAverage",

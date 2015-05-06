@@ -6,7 +6,7 @@ lib/icons_rc.py
 build/
 dist/
 *.egg/
-/electrum.py
+/scallop.py
 contrib/pyinstaller/
 Electrum.egg-info/
 gui/qt/icons_rc.py

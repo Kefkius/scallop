@@ -20,13 +20,13 @@ data_files = []
 if platform.system() in [ 'Linux', 'FreeBSD', 'DragonFly']:
     usr_share = os.path.join(sys.prefix, "share")
     data_files += [
-        (os.path.join(usr_share, 'applications/'), ['electrum.desktop']),
-        (os.path.join(usr_share, 'pixmaps/'), ['icons/electrum.png'])
+        (os.path.join(usr_share, 'applications/'), ['scallop.desktop']),
+        (os.path.join(usr_share, 'pixmaps/'), ['icons/scallop.png'])
     ]
 
 
 setup(
-    name="Electrum",
+    name="Scallop",
     version=version.ELECTRUM_VERSION,
     install_requires=[
         'slowaes>=0.1a1',
@@ -39,17 +39,17 @@ setup(
         'dnspython',
     ],
     package_dir={
-        'electrum': 'lib',
-        'electrum_gui': 'gui',
-        'electrum_plugins': 'plugins',
+        'scallop': 'lib',
+        'scallop_gui': 'gui',
+        'scallop_plugins': 'plugins',
     },
-    packages=['electrum','electrum_gui','electrum_gui.qt','electrum_plugins'],
+    packages=['scallop','scallop_gui','scallop_gui.qt','scallop_plugins'],
     package_data={
-        'electrum': [
+        'scallop': [
             'wordlist/*.txt',
             'locale/*/LC_MESSAGES/electrum.mo',
         ],
-        'electrum_gui': [
+        'scallop_gui': [
             "qt/themes/cleanlook/name.cfg",
             "qt/themes/cleanlook/style.css",
             "qt/themes/sahara/name.cfg",
@@ -58,7 +58,7 @@ setup(
             "qt/themes/dark/style.css",
         ]
     },
-    scripts=['electrum'],
+    scripts=['scallop'],
     data_files=data_files,
     description="Lightweight Bitcoin Wallet",
     author="Thomas Voegtlin",

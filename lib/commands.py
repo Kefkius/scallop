@@ -258,8 +258,8 @@ class Commands:
         return self.network.get_servers()
 
     def getversion(self):
-        import electrum  # Needs to stay here to prevent ciruclar imports
-        return electrum.ELECTRUM_VERSION
+        import scallop  # Needs to stay here to prevent ciruclar imports
+        return scallop.ELECTRUM_VERSION
 
     def getmpk(self):
         return self.wallet.get_master_public_keys()

@@ -34,11 +34,11 @@ from PyQt4.QtGui import *
 from PyQt4.QtCore import *
 import PyQt4.QtCore as QtCore
 
-from electrum.i18n import _, set_language
-from electrum.util import print_error, print_msg
-from electrum.plugins import run_hook, always_hook
-from electrum import WalletStorage, Wallet
-from electrum.bitcoin import MIN_RELAY_TX_FEE
+from scallop.i18n import _, set_language
+from scallop.util import print_error, print_msg
+from scallop.plugins import run_hook, always_hook
+from scallop import WalletStorage, Wallet
+from scallop.bitcoin import MIN_RELAY_TX_FEE
 
 try:
     import icons_rc
