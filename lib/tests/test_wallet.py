@@ -101,8 +101,8 @@ class TestNewWallet(WalletTestCase):
 
     first_account_name = "account1"
 
-    import_private_key = "L52XzL2cMkHxqxBXRyEpnPQZGUs3uKiL3R11XbAdHigRzDozKZeW"
-    import_key_address = "15mKKb2eos1hWa6tisdPwwDC1a5J1y9nma"
+    import_private_key = "Lovgr8q7EWseiYFNCMDHmFszWesK5R4xrd7fKru6k7SzPsjdEMG3"
+    import_key_address = "xD4xDTs85aVjYxCm5MG4P7VyEgNXTaySTp"
 
     def setUp(self):
         super(TestNewWallet, self).setUp()
