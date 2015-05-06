@@ -38,12 +38,12 @@ class Plugin(BasePlugin):
         return "0.0.1"
 
     def encode(self, message):
-        encrypted = electrum.bitcoin.aes_encrypt_with_iv(self.encode_password, self.iv, message.encode('utf8'))
+        encrypted = scallop.bitcoin.aes_encrypt_with_iv(self.encode_password, self.iv, message.encode('utf8'))
         encoded_message = base64.b64encode(encrypted)
         return encoded_message
 
     def decode(self, message):
-        decoded_message = electrum.bitcoin.aes_decrypt_with_iv(self.encode_password, self.iv, base64.b64decode(message)).decode('utf8')
+        decoded_message = scallop.bitcoin.aes_decrypt_with_iv(self.encode_password, self.iv, base64.b64decode(message)).decode('utf8')
         return decoded_message
 
     def set_nonce(self, nonce):

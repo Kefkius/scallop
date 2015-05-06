@@ -210,7 +210,7 @@ class Plugin(BasePlugin):
 
     def __init__(self, x, y):
         BasePlugin.__init__(self, x, y)
-        electrum.wallet.wallet_types.append(('twofactor', '2fa', _("Wallet with two-factor authentication"), Wallet_2fa))
+        scallop.wallet.wallet_types.append(('twofactor', '2fa', _("Wallet with two-factor authentication"), Wallet_2fa))
         self.seed_func = lambda x: bitcoin.is_new_seed(x, SEED_PREFIX)
         self.billing_info = None
         self.is_billing = False

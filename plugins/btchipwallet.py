@@ -46,7 +46,7 @@ class Plugin(BasePlugin):
         self._is_available = self._init()
         self.wallet = None
         if self._is_available:
-            electrum.wallet.wallet_types.append(('hardware', 'btchip', _("BTChip wallet"), BTChipWallet))
+            scallop.wallet.wallet_types.append(('hardware', 'btchip', _("BTChip wallet"), BTChipWallet))
 
     def _init(self):
         return BTCHIP

@@ -53,7 +53,7 @@ class Plugin(BasePlugin):
         self._requires_settings = True
         self.wallet = None
         if self._is_available:
-            electrum.wallet.wallet_types.append(('hardware', 'trezor', _("Trezor wallet"), TrezorWallet))
+            scallop.wallet.wallet_types.append(('hardware', 'trezor', _("Trezor wallet"), TrezorWallet))
 
     def _init(self):
         return TREZOR
