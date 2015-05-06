@@ -25,6 +25,7 @@ from bitcoin import *
 from util import print_error
 import time
 import struct
+import binascii
 
 #
 # Workalike python implementation of Bitcoin's CDataStream class.
@@ -35,6 +36,8 @@ import mmap
 import random
 
 NO_SIGNATURE = 'ff'
+
+TX_VERSION_CLAMSPEECH = 2
 
 class SerializationError(Exception):
     """ Thrown when there's a problem deserializing or serializing """
@@ -463,11 +466,14 @@ def deserialize(raw):
     d = {}
     start = vds.read_cursor
     d['version'] = vds.read_int32()
+    d['time'] = vds.read_int32()
     n_vin = vds.read_compact_size()
     d['inputs'] = list(parse_input(vds) for i in xrange(n_vin))
     n_vout = vds.read_compact_size()
     d['outputs'] = list(parse_output(vds,i) for i in xrange(n_vout))
     d['lockTime'] = vds.read_uint32()
+    if d['version'] >= TX_VERSION_CLAMSPEECH:
+        d['clamSpeech'] = vds.read_bytes(vds.read_compact_size())
     return d
 
 
@@ -476,6 +482,8 @@ def push_script(x):
 
 
 class Transaction:
+
+    version = 1
 
     def __str__(self):
         if self.raw is None:
@@ -491,9 +499,20 @@ class Transaction:
 
     def deserialize(self):
         d = deserialize(self.raw)
+        self.version = d['version']
+        self.time = d['time']
         self.inputs = d['inputs']
         self.outputs = [(x['type'], x['address'], x['value']) for x in d['outputs']]
         self.locktime = d['lockTime']
+        self.clamspeech = binascii.unhexlify(d['clamSpeech'].encode('hex')) if self.version >= TX_VERSION_CLAMSPEECH else None
+        if len(self.inputs) == 1 and len(self.outputs) == 2 \
+            and self.outputs[0][0] == 'script' \
+            and self.outputs[0][1] == '' \
+            and self.outputs[0][2] == 0:
+
+            self.is_coinstake = True
+        else:
+            self.is_coinstake = False
 
     @classmethod
     def from_io(klass, inputs, outputs, locktime=0):
@@ -630,7 +649,8 @@ class Transaction:
     def serialize(self, for_sig=None):
         inputs = self.inputs
         outputs = self.outputs
-        s  = int_to_hex(1,4)                                         # version
+        s  = int_to_hex(self.version,4)                              # version
+        s += int_to_hex(self.time,4)                                 # time
         s += var_int( len(inputs) )                                  # number of inputs
         for i, txin in enumerate(inputs):
             s += txin['prevout_hash'].decode('hex')[::-1].encode('hex')   # prev hash
@@ -647,6 +667,8 @@ class Transaction:
             s += var_int( len(script)/2 )                           #  script length
             s += script                                             #  script
         s += int_to_hex(0,4)                                        #  lock time
+        if self.version >= TX_VERSION_CLAMSPEECH:
+            s += self.clamspeech.encode('hex')                      #  clamSpeech
         if for_sig is not None and for_sig != -1:
             s += int_to_hex(1, 4)                                   #  hash type
         return s
