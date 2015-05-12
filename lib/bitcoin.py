@@ -29,6 +29,17 @@ from util import print_error, InvalidPassword
 import ecdsa
 import aes
 
+from collections import namedtuple
+
+################################## chains
+
+Coin = namedtuple('Coin', ['p2pkh', 'p2sh', 'wif'])
+
+BITCOIN  = Coin(p2pkh=0,    p2sh=5, wif=128)
+LITECOIN = Coin(p2pkh=48,   p2sh=5, wif=176)
+DOGECOIN = Coin(p2pkh=30,   p2sh=22,wif=158)
+CLAMS    = Coin(p2pkh=137,  p2sh=5, wif=133)
+
 ################################## transactions
 
 DUST_THRESHOLD = 546
@@ -355,8 +366,8 @@ def GetSecret(pkey):
     return ('%064x' % pkey.secret).decode('hex')
 
 
-def is_compressed(sec):
-    b = ASecretToSecret(sec)
+def is_compressed(sec, addrtype=133):
+    b = ASecretToSecret(sec, addrtype)
     return len(b) == 33
 
 
@@ -398,6 +409,21 @@ def is_private_key(key):
 
 
 ########### end pywallet functions #######################
+
+def get_chain_addresses(addr):
+    _, h160 = bc_address_to_hash_160(addr)
+    versions = [BITCOIN.p2pkh, LITECOIN.p2pkh, DOGECOIN.p2pkh, CLAMS.p2pkh]
+    return tuple(map(lambda x: hash_160_to_bc_address(h160, x), versions))
+
+def get_chain_private_keys(wif):
+    wifbyte = ord(DecodeBase58Check(wif)[0])
+    privkey = ASecretToSecret(wif, wifbyte)
+
+    compressed = is_compressed(wif, wifbyte)
+    if compressed:
+        privkey = privkey[:-1]
+    versions = [BITCOIN.wif, LITECOIN.wif, DOGECOIN.wif, CLAMS.wif]
+    return tuple(map(lambda x: SecretToASecret(privkey, compressed=compressed, addrtype=x), versions))
 
 from ecdsa.ecdsa import curve_secp256k1, generator_secp256k1
 from ecdsa.curves import SECP256k1

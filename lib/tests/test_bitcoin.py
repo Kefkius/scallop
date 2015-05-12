@@ -6,7 +6,8 @@ from lib.bitcoin import (
     generator_secp256k1, point_to_ser, public_key_to_bc_address, EC_KEY,
     bip32_root, bip32_public_derivation, bip32_private_derivation, pw_encode,
     pw_decode, Hash, public_key_from_private_key, address_from_private_key,
-    is_valid, is_private_key, xpub_from_xprv)
+    is_valid, is_private_key, xpub_from_xprv, get_chain_addresses,
+    get_chain_private_keys)
 
 try:
     import ecdsa
@@ -134,6 +135,38 @@ class Test_bitcoin(unittest.TestCase):
         xprv = "tprv8kgvuL81tmn36Fv9z38j8f4K5m1HGZRjZY2QxnXDy5PuqbP6a5TzoKWCgTcGHBu66W3TgSbAu2yX6sPza5FkHmy564Sh6gmCPUNeUt4yj2x"
         result = xpub_from_xprv(xprv, testnet=True)
         self.assertEqual(result, xpub)
+
+    def test_get_chain_addresses(self):
+        """We can get the BTC, LTC, DOGE, and CLAM addresses corresponding to an address."""
+        original_addr = 'xTsMjjeHHzkT7Dx9MwyDq9UbhCThiihjig'
+        addrs = get_chain_addresses(original_addr)
+        self.assertEqual(addrs[0], '1LZiqrop2HGR4qrH1ULZPyBpU6AUP49Uam')
+        self.assertEqual(addrs[1], 'Leng757e6wWUKeYSBcKrfzFagJXkVCeZ8J')
+        self.assertEqual(addrs[2], 'DQhpP7kTKhAhbr2sk4L7wjMRMDtmhtKA7G')
+        self.assertEqual(addrs[3], 'xTsMjjeHHzkT7Dx9MwyDq9UbhCThiihjig')
+
+        original_addr = '1Gf4NX3v7ZE6UinF7GxvXbA3Vn3XC8FdUM'
+        addrs = get_chain_addresses(original_addr)
+        self.assertEqual(addrs[0], '1Gf4NX3v7ZE6UinF7GxvXbA3Vn3XC8FdUM')
+        self.assertEqual(addrs[1], 'Lat1djMkCDU9jXUQHQxDocDohzQoLSvBpY')
+        self.assertEqual(addrs[2], 'DLo9umzZQy8P1ixqqrxV5MKeNumpZMH2xY')
+        self.assertEqual(addrs[3], 'xPxhGPtPPGi8X6t7TkbaxmSpitLkZ9Rnbh')
+
+    def test_get_chain_private_keys(self):
+        """We can get the WIF private keys for BTC, LTC, DOGE, and CLAM from one WIF key."""
+        compressed_wif = 'Kx6WQvvoJciR2F4HDqZG3VZa6CmGzTdcPpHVhdr288PoFqEvqniT'
+        wifs = get_chain_private_keys(compressed_wif)
+        self.assertEqual(wifs[0], 'Kx6WQvvoJciR2F4HDqZG3VZa6CmGzTdcPpHVhdr288PoFqEvqniT')
+        self.assertEqual(wifs[1], 'T3vmrgDyhzh1o5h9mUW8Fr6x34Qb4YeWD2BkZSUZh6ZxmioTxgAF')
+        self.assertEqual(wifs[2], 'QPVRZmjnZECYFmTKp7Q3viQBZEnr31mRH4yQVGErrV19hm7e9mKk')
+        self.assertEqual(wifs[3], 'LgzfGjjJBPJ6tq87zDXj2N31LNmYAYzFD2Q9VuaVaXAMfVC8ocK9')
+
+        uncompressed_wif = '5J1o5yAvYBMiEsmF6dNoug6Zsa2RU4mYaiXUM5ivGfNvysqjRvZ'
+        wifs = get_chain_private_keys(uncompressed_wif)
+        self.assertEqual(wifs[0], '5J1o5yAvYBMiEsmF6dNoug6Zsa2RU4mYaiXUM5ivGfNvysqjRvZ')
+        self.assertEqual(wifs[1], '6uKXZ6iTSbpaiFf6cTAmh4sjq3atfsDaMPve4Gjwz7hYfmoGtkQ')
+        self.assertEqual(wifs[2], '6JL8Nvdt6weWHVCQJ1znXJ5oLzVxyC3pBtehfaMp6KaZnVkwDU3')
+        self.assertEqual(wifs[3], '5TjWy8R5oJjquyfmdXUogH6ST971iayvWut1ZqAQEwQsSzQMSqh')
 
 
 class Test_keyImport(unittest.TestCase):
